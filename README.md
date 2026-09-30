@@ -1,4 +1,4 @@
-# Trazo Sistemas: landing corporativa (MVP)
+# Trazo Inteligente: landing corporativa (MVP)
 
 Sitio de una sola página para una empresa de TI: inicio, servicios, portafolio con modal, formulario de contacto funcional, botón flotante de WhatsApp y footer con aviso de privacidad.
 
@@ -45,13 +45,6 @@ lib/
 public/images/           Imágenes del portafolio en WebP (< 15 KB cada una)
 ```
 
-## Editar el contenido
-
-- **Datos de la empresa** (nombre, correo, teléfono, WhatsApp, dirección, horario): `lib/site.ts`.
-- **Servicios:** `data/services.ts`. Se muestran los 6 primeros según el campo `order`.
-- **Proyectos:** `data/projects.ts`. Solo se muestran los que tienen `featured: true`, hasta 5. El botón "Ver proyecto" del modal aparece solo si el proyecto tiene `link`.
-- **Imágenes:** colócalas en `public/images/` en WebP o JPEG comprimido, de menos de 500 KB.
-
 ## Cómo funciona el formulario
 
 1. El cliente valida mientras escribes: nombre de 2 caracteres o más, correo con formato válido y mensaje de 10 caracteres o más. La empresa es opcional.
@@ -69,24 +62,6 @@ public/images/           Imágenes del portafolio en WebP (< 15 KB cada una)
 | 422 | Errores marcados en cada campo |
 | 429 / 500 | Mensaje rojo para reintentar más tarde |
 
-## Desplegar en Vercel
-
-1. Sube el proyecto a un repositorio de GitHub:
-
-   ```bash
-   git init
-   git add .
-   git commit -m "Landing Trazo Sistemas"
-   git branch -M main
-   git remote add origin https://github.com/TU_USUARIO/trazo-landing.git
-   git push -u origin main
-   ```
-
-2. En https://vercel.com crea un proyecto nuevo, importa el repositorio y pulsa **Deploy**. Vercel detecta Next.js solo; no hace falta configurar nada.
-3. En uno o dos minutos tendrás una URL `https://tu-proyecto.vercel.app` con HTTPS incluido. Cada `git push` a `main` vuelve a desplegar automáticamente.
-
-> El plan Hobby de Vercel es para uso personal y no comercial, como este laboratorio. Si el sitio se usa para una empresa real, corresponde el plan Pro u otra plataforma.
-
 ### Importante: dónde se guardan los leads en Vercel
 
 Vercel no tiene disco persistente. Sin configurar nada, el formulario **funciona** (valida, responde y registra cada envío en los logs de la función, visibles en *Logs* dentro del proyecto de Vercel), pero los leads se guardan en `/tmp` y **se pierden** cuando la función se reinicia. El límite por IP también se reinicia.
@@ -102,19 +77,7 @@ Desde ese momento los leads se guardan en la lista `leads` de Redis. Para verlos
 ```
 LRANGE leads 0 -1
 ```
-
 En los logs aparecerá `guardado (modo redis)` en lugar de `(modo local)`.
-
-### Opcional: aviso por email de cada lead
-
-1. Crea una cuenta gratuita en https://resend.com y genera una API key.
-2. En Vercel → **Settings → Environment Variables** agrega:
-   - `RESEND_API_KEY`: tu API key
-   - `LEADS_NOTIFY_TO`: el correo que recibirá los avisos (sin dominio propio verificado, Resend solo envía al correo de tu cuenta)
-   - `LEADS_NOTIFY_FROM`: `onboarding@resend.dev`
-3. Vuelve a desplegar.
-
-Las variables disponibles están documentadas en `.env.example`. Nunca subas un archivo `.env` con credenciales al repositorio.
 
 ## Seguridad incluida
 
