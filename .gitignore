@@ -1,0 +1,19 @@
+# dependencias
+/node_modules
+
+# build de Next.js
+/.next/
+/out/
+
+# variables de entorno (nunca subir credenciales)
+.env
+.env*.local
+
+# leads guardados en desarrollo local
+/data/leads.json
+
+# varios
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+.vercel

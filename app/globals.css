@@ -1,0 +1,175 @@
+@import "tailwindcss";
+@import "@fontsource-variable/archivo/wdth.css";
+
+@theme {
+  --color-paper: #f3f5f8;
+  --color-ink: #0f1a33;
+  --color-ink-soft: #3c4a66;
+  --color-cobalt: #2346d1;
+  --color-cobalt-dark: #1a36a8;
+  --color-cobalt-tint: #e1e7fa;
+  --color-line: #c9d2e0;
+  --color-signal: #0e9f7e;
+  --color-signal-tint: #dcf3ec;
+  --color-danger: #c62f3b;
+  --color-danger-tint: #fbe6e8;
+
+  --font-sans: "Archivo Variable", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-stretch: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Titulares en Archivo expandido: la tipografía es parte del diseño */
+  .display {
+    font-stretch: 118%;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+
+  .heading {
+    font-stretch: 112%;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+  }
+
+  /* Cuadrícula tipo plano técnico */
+  .blueprint {
+    background-color: var(--color-paper);
+    background-image:
+      linear-gradient(to right, rgb(35 70 209 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(35 70 209 / 0.07) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0 1.4rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 150ms, color 150ms, border-color 150ms;
+  }
+  .btn-primary {
+    background: var(--color-cobalt);
+    color: white;
+  }
+  .btn-primary:hover {
+    background: var(--color-cobalt-dark);
+  }
+  .btn-primary:disabled {
+    background: #7d8fd6;
+    cursor: not-allowed;
+  }
+  .btn-secondary {
+    border: 1.5px solid var(--color-ink);
+    color: var(--color-ink);
+    background: white;
+  }
+  .btn-secondary:hover {
+    background: var(--color-ink);
+    color: white;
+  }
+
+  /* Campos del formulario */
+  .field {
+    width: 100%;
+    border: 1.5px solid var(--color-line);
+    border-radius: 0.5rem;
+    background: white;
+    padding: 0.75rem 0.9rem;
+    font-size: 1rem;
+    color: var(--color-ink);
+    transition: border-color 150ms;
+  }
+  select.field {
+    height: 3.05rem;
+    padding-block: 0;
+  }
+  .field:hover {
+    border-color: #9aa8c0;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-cobalt);
+    box-shadow: 0 0 0 3px rgb(35 70 209 / 0.18);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+  .field[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgb(198 47 59 / 0.18);
+  }
+}
+
+/* Dibujo único del diagrama del hero al cargar la página */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes node-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.diagram-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 700ms ease-out forwards;
+}
+.diagram-node {
+  opacity: 0;
+  animation: node-in 400ms ease-out forwards;
+}
+
+/* Modal nativo <dialog> */
+dialog.project-modal::backdrop {
+  background: rgb(15 26 51 / 0.6);
+}
+dialog.project-modal[open] {
+  animation: node-in 200ms ease-out;
+}
